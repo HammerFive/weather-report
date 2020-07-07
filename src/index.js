@@ -1,17 +1,25 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+
+//引入antdUI库
+import {DatePicker} from "antd";
+import 'antd/dist/antd.css'
+
 import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import App from './components/App';
+
+import {Router, hashHistory,Route ,IndexRoute} from "react-router";
+import SearchCity from "./components/SearchCity";
+
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
+    (
+        <Router history={hashHistory}>
+            <Route path='/' component={App}>
+                <Route path='/search' component={SearchCity}/>
+            </Route>
+        </Router>
+    ),document.getElementById('root')
 );
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+
