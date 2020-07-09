@@ -1,0 +1,132 @@
+
+.mainBar {
+    line-height: 1.5;
+    font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Fira Sans,Droid Sans,Helvetica Neue,sans-serif;;
+
+    border: 1px solid black;
+
+    background: #6e3f98;
+    width: 60%;
+    background-image: linear-gradient(#6e3f98, #9a6c97, #cfa497);
+    border-radius: 5px;
+    box-shadow: #7d5488 5px 5px 5px 2px ;
+}
+.mainBar2 {
+    line-height: 1.5;
+    font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Fira Sans,Droid Sans,Helvetica Neue,sans-serif;
+    border: 1px solid black;
+    background: white;
+    width: 73.4%;
+    /*background-image: linear-gradient(#6e3f98, #9a6c97, #cfa497);*/
+    border-radius: 5px;
+    box-shadow: #7d5488 5px 5px 5px 2px ;
+}
+.layout{
+    background: #6e3f98;
+    margin-bottom: 20px;
+    /*background-image: linear-gradient(#6e3f98, #9a6c97, #cfa497);*/
+}
+.sideBar {
+    /*background-image: linear-gradient(#6e3f98, #9a6c97, #cfa497);*/
+    background-color: #6e3f98;
+    float: right;
+    width: 500px;
+    border-radius: 5px;
+
+    margin-left: 10px;
+
+
+}
+.list{
+    border: 1px solid #6e3f98;
+    background: white;
+    color: black;
+    width: 200px;
+    padding-left: 8px;
+    padding-right: 5px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+
+}
+
+.div1{
+    font-size: 34px;
+}
+.div2{
+    font-size: 15px;
+}
+.div3{
+    font-size: 60px;
+}
+.pic{
+    float: right;
+    padding-right: 50px;
+    font-size: 20px;
+}
+#wea_pic{
+    width: 100px;
+}
+.placeName{
+
+    font-size: 25px;
+}
+.hourWeather{
+    /*width: 70%;*/
+    text-align: center;
+    height: auto;
+    color: black;
+}
+.divider{
+    height: inherit;
+    color: black;
+}
+.timeOneDay{
+
+    font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Fira Sans,Droid Sans,Helvetica Neue,sans-serif;
+    font-size: 20px;
+    color: gray;
+}
+.tem1{
+    font-size: 15px;
+
+}
+.tem2{
+    font-size: 30px;
+    margin-bottom:10px;
+}
+.am{
+    font-weight: 900;
+}
+.pm{
+    font-weight: 900;
+}
+.evening{
+    font-weight: 900;
+}
+.night{
+    font-weight: 900;
+}
+.now{
+    color: cornflowerblue;
+}
+.pic2{
+    width: 46px;
+}
+.img1{
+    margin-right: 10px;
+    width:32px;
+    float:left
+}
+.img1Des{
+    font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Fira Sans,Droid Sans,Helvetica Neue,sans-serif;
+    font-size: 17px;
+    color: black;
+    float:left
+}
+.img1Val{
+    font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Fira Sans,Droid Sans,Helvetica Neue,sans-serif;
+    font-size: 20px;
+    color: black;
+    float: right;
+    padding-right: 35px;
+}

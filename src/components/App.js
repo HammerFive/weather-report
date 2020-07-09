@@ -1,36 +1,36 @@
 import React from "react";
-import {Layout, Row, Col, Menu, Breadcrumb} from 'antd';
-import {Link} from 'react-router'
+import {Layout, Row, Spin,Col, Menu, Breadcrumb} from 'antd';
+import {Link,browserHistory, Route} from 'react-router'
+
 import {Input} from 'antd';
 import axios from 'axios'
-import {AudioOutlined} from '@ant-design/icons';
+import {AudioOutlined,LoadingOutlined} from '@ant-design/icons';
 import AMapLoader from '@amap/amap-jsapi-loader';
 
-const {Header, Content, Footer} = Layout;
 
+const {Header, Content, Footer} = Layout;
+const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 const {Search} = Input;
 
 const suffix = (
-    <AudioOutlined
-        style={{
-            fontSize: 16,
-            color: '#1890ff',
-        }}
-    />
+    <AudioOutlined style={{fontSize: 16, color: '#1890ff',}}/>
 );
 
 class App extends React.Component {
+
     constructor(props) {
         super(props);
         this.state = {
             city_name: null,
-            weather:null
+            weather: null
         }
         this.onComplete = this.onComplete.bind(this);
+
     }
 
     onComplete(data) {
         let {city_name} = this.state;
+
         // data是具体的定位信息
         // console.log(data.addressComponent.city)
         var cityName = data.addressComponent.city
@@ -41,8 +41,11 @@ class App extends React.Component {
             this.setState({
                 city_name: city
             })
+            document.getElementById('init').style.display = 'none';
+            document.getElementById('searchText').style.display = 'block';
             // console.log(this.state);
         }
+
     }
 
     componentDidMount() {
@@ -87,38 +90,36 @@ class App extends React.Component {
         }).catch(e => {
             console.log(e);
         })
-        /*  var map = new AMap.Map('container', {
-              resizeEnable: true, //是否监控地图容器尺寸变化
-              zoom: 11, //初始化地图层级
-              // center: [116.397428, 39.90923] //初始化地图中心点
-          });*/
-
 
     }
-
 
     queryInfo = (cityName) => {
         if (!cityName) {
             cityName = this.state.city_name;
-        }else if (typeof cityName === 'object'){
+        } else if (typeof cityName === 'object') {
             cityName = this.state.city_name;
+        } else if (cityName.indexOf('市')){
+            cityName = cityName.split('市')[0];
         }
-        // console.log(cityName)
-        //cityName = cityName.split('市')[0];
         let url = 'https://www.tianqiapi.com/api?version=v9&city=' + cityName + '&appid=39796962&appsecret=6EvxoP9n';
         axios.get(url)
-            .then((response)=>{
+            .then((response) => {
                 let data = response.data;
-                console.log(data);
+                // console.log(data);
+                sessionStorage.setItem('weather', JSON.stringify(data));
                 this.setState({
-                    weather:data
+                    weather: data
                 })
+                this.props.router.push('/search/now/city')
+                if (data.city!==cityName){
+                        alert('该城市查无结果，默认查询北京')
+                }
             })
-            .catch((error)=>{
+            .catch((error) => {
                 console.log(error);
-
             })
-        // console.log(cityName);
+
+
     }
 
     render() {
@@ -130,28 +131,34 @@ class App extends React.Component {
                     <Menu theme="dark" mode="horizontal"/>
                 </Header>
                 <br/>
-                <h1 style={{textAlign: 'center'}}>天气预报</h1>
+                <h1 style={{textAlign: 'center',fontSize:'68px',color:'white'}}>天气预报</h1>
                 <br/>
-                <Content style={{padding: '0 50px'}}>
+                <Content  style={{padding: '0 50px'}}>
                     <br/>
 
-                    <div style={{textAlign: 'center',padding: '50px 50px'}} className="site-layout-content">
-                        <Row>
-                            <Col span={12} offset={6}>
-                                <Search size={"large"} placeholder="输入要查询的城市名" onSearch={this.queryInfo} enterButton/>
-                                <br/>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col span={12} offset={6}>
-                                <Link to='/search' onClick={this.queryInfo}>查询当前城市？</Link>
-                            </Col>
-                        </Row>
+                    <div style={{textAlign: 'center', padding: '50px 50px'}} className="site-layout-content">
+                        <div id={'searchText'} style={{display:'none'}}>
+                            <Row>
+                                <Col span={12} offset={6}>
+                                    <Search size={"large"} placeholder="输入要查询的城市名(默认为当前所在城市)" onSearch={this.queryInfo} enterButton/>
+                                    <br/>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col span={12} offset={6}>
+                                    <Link push to='/search/now/city' onClick={this.queryInfo}>查询当前城市？</Link>
+                                </Col>
+                            </Row>
+                        </div>
+                        <div id={'init'} style={{marginLeft:'300px',marginTop:'20px',float:'left'}}>
+                            <h2>系统初始化中</h2>
+                            <Spin indicator={antIcon} />
+                        </div>
                     </div>
 
                 </Content>
 
-                <Footer style={{textAlign: 'center'}}>Ant Design ©2018 Created by Ant UED</Footer>
+                <Footer style={{textAlign: 'center'}}>Weather Report ©2020 Created by Hammer</Footer>
             </Layout>
         );
     }
