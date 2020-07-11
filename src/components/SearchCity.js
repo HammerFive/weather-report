@@ -66,6 +66,8 @@ class SearchCity extends React.Component {
         this.changeClassName();
         let {className} = this.state;
         let weather = JSON.parse(sessionStorage.getItem('weather'));
+
+
         let count = 0;
         for (let item of weather.data[0].hours) {
             if (item.hours.indexOf(curHour) !== -1) {

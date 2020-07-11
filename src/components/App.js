@@ -1,15 +1,15 @@
 import React from "react";
-import {Layout, Row, Spin,Col, Menu, Breadcrumb} from 'antd';
-import {Link,browserHistory, Route} from 'react-router'
+import {Layout, Row, Spin, Col, Menu, Breadcrumb} from 'antd';
+import {Link, browserHistory, Route} from 'react-router'
 
 import {Input} from 'antd';
 import axios from 'axios'
-import {AudioOutlined,LoadingOutlined} from '@ant-design/icons';
+import {AudioOutlined, LoadingOutlined} from '@ant-design/icons';
 import AMapLoader from '@amap/amap-jsapi-loader';
 
 
 const {Header, Content, Footer} = Layout;
-const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
+const antIcon = <LoadingOutlined style={{fontSize: 24}} spin/>;
 const {Search} = Input;
 
 const suffix = (
@@ -98,7 +98,7 @@ class App extends React.Component {
             cityName = this.state.city_name;
         } else if (typeof cityName === 'object') {
             cityName = this.state.city_name;
-        } else if (cityName.indexOf('市')){
+        } else if (cityName.indexOf('市')) {
             cityName = cityName.split('市')[0];
         }
         let url = 'https://www.tianqiapi.com/api?version=v9&city=' + cityName + '&appid=39796962&appsecret=6EvxoP9n';
@@ -111,8 +111,8 @@ class App extends React.Component {
                     weather: data
                 })
                 this.props.router.push('/search/now/city')
-                if (data.city!==cityName){
-                        alert('该城市查无结果，默认查询北京')
+                if (data.city !== cityName) {
+                    alert('该城市查无结果，默认查询北京')
                 }
             })
             .catch((error) => {
@@ -131,28 +131,29 @@ class App extends React.Component {
                     <Menu theme="dark" mode="horizontal"/>
                 </Header>
                 <br/>
-                <h1 style={{textAlign: 'center',fontSize:'68px',color:'white'}}>天气预报</h1>
+                <h1 style={{textAlign: 'center', fontSize: '68px', color: 'white'}}>天气预报</h1>
                 <br/>
-                <Content  style={{padding: '0 50px'}}>
+                <Content style={{padding: '0 50px'}}>
                     <br/>
 
                     <div style={{textAlign: 'center', padding: '50px 50px'}} className="site-layout-content">
-                        <div id={'searchText'} style={{display:'none'}}>
+                        <div id={'searchText'} style={{display: 'none'}}>
                             <Row>
                                 <Col span={12} offset={6}>
-                                    <Search size={"large"} placeholder="输入要查询的城市名(默认为当前所在城市)" onSearch={this.queryInfo} enterButton/>
+                                    <Search size={"large"} placeholder="输入要查询的城市名(默认为当前所在城市)" onSearch={this.queryInfo}
+                                            enterButton/>
                                     <br/>
                                 </Col>
                             </Row>
-                            <Row>
+                           {/* <Row>
                                 <Col span={12} offset={6}>
                                     <Link push to='/search/now/city' onClick={this.queryInfo}>查询当前城市？</Link>
                                 </Col>
-                            </Row>
+                            </Row>*/}
                         </div>
-                        <div id={'init'} style={{marginLeft:'300px',marginTop:'20px',float:'left'}}>
+                        <div id={'init'} style={{marginLeft: '300px', marginTop: '20px', float: 'left'}}>
                             <h2>系统初始化中</h2>
-                            <Spin indicator={antIcon} />
+                            <Spin indicator={antIcon}/>
                         </div>
                     </div>
 
