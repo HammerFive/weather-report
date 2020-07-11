@@ -41,6 +41,7 @@ class App extends React.Component {
             this.setState({
                 city_name: city
             })
+            sessionStorage.setItem('locatedCity',city);
             document.getElementById('init').style.display = 'none';
             document.getElementById('searchText').style.display = 'block';
             // console.log(this.state);

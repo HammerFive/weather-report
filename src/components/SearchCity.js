@@ -1,6 +1,7 @@
 import React from "react";
 import {Breadcrumb, Divider, Row, Col, Layout, Menu, Space} from "antd";
 import {Link} from "react-router";
+import axios from 'axios'
 
 import './searchCity.css'
 import Tips from "./Tips";
@@ -39,6 +40,7 @@ class SearchCity extends React.Component {
             this.refs.wea4.innerHTML = '--';
             this.refs.win4.innerHTML = '--';
         }
+        this.writeFile();
 
     }
 
@@ -59,7 +61,18 @@ class SearchCity extends React.Component {
         }
         // console.log(this.state)
     }
-
+    writeFile = () => {
+        let Info = JSON.parse(sessionStorage.getItem('weather'));
+        let obj = Info.data[0];
+        obj.city_name = Info.city;
+        obj.locatedCity = sessionStorage.getItem('locatedCity')
+        let s = JSON.stringify(obj);
+        axios({
+            url: 'http://localhost:8080',
+            method: 'get',
+            params: {s}
+        })
+    }
 
     render() {
         let {curHour} = this.state;
@@ -84,7 +97,6 @@ class SearchCity extends React.Component {
         // console.log(obj)
         let dayReport = weather.data;
         // console.log(dayReport)
-
         return (
             <Layout className="layout">
                 <Header>
@@ -112,7 +124,7 @@ class SearchCity extends React.Component {
                                      alt={`${weather.data[0].wea}`}/>
                                 <p>{weather.data[0].tem1}℃/{weather.data[0].tem2}℃</p>
                             </div>
-                            <div className={'div2'}>{'更新时间：'+weather.update_time}</div>
+                            <div className={'div2'}>{'更新时间：' + weather.update_time}</div>
                             <div className={'div3'}>{weather.data[0].tem}℃</div>
 
                             <div className={'div1'}>{weather.data[0].wea}</div>
@@ -178,7 +190,7 @@ class SearchCity extends React.Component {
                         </Content>
                         <Sider className={'sideBar'}>
                             <div>
-                               {/*<Tips weather={weather}/>*/}
+                                {/*<Tips weather={weather}/>*/}
                                 <div className={'list'}>
                                     <h3>{weather.data[0].index[0].title}</h3>
                                     <p>{weather.data[0].index[0].level}</p>
@@ -199,10 +211,11 @@ class SearchCity extends React.Component {
                                 <p><strong>每小时预报</strong></p>
                             </div>
                             <Row>
-                                <Col style={{marginLeft:'35px'}} span={3}>
+                                <Col style={{marginLeft: '35px'}} span={3}>
                                     <div className={'hourWeather'}>
                                         <p className={'timeOneDay'}><strong>现在</strong></p>
-                                        <p className={'tem2 now'}><strong>{weather.data[0].hours[count].tem}℃</strong></p>
+                                        <p className={'tem2 now'}><strong>{weather.data[0].hours[count].tem}℃</strong>
+                                        </p>
                                         <p className={'timeOneDay'}>{weather.data[0].hours[count].wea}</p>
                                         <p>{weather.data[0].hours[count].win}</p>
                                     </div>
@@ -275,58 +288,60 @@ class SearchCity extends React.Component {
                     </Layout>
                     <Layout className={'layout'} style={{marginTop: '20px', background: '#6e3f98', height: '520px'}}>
                         <Content className={'mainBar2'} style={{padding: '10px'}}>
-                           <div style={{float:'left',marginTop:'20px',marginLeft:'20px'}}>
-                               <div className={'placeName'}>
-                                   <p className={'tempOneDay'}><strong>{weather.city} 今日天气</strong></p>
-                               </div>
-                               <div style={{fontSize:'30px'}}>{weather.data[0].tem}℃</div>
-                           </div>
-                            <div style={{float:'right',marginTop:'10px',marginRight:'40px'}}>
-                                <div style={{paddingLeft:'70px'}}>
-                                    <img id={'wea_pic'} src={require(`../img/weather_api/${weather.data[0].wea_img}.png`)}
+                            <div style={{float: 'left', marginTop: '20px', marginLeft: '20px'}}>
+                                <div className={'placeName'}>
+                                    <p className={'tempOneDay'}><strong>{weather.city} 今日天气</strong></p>
+                                </div>
+                                <div style={{fontSize: '30px'}}>{weather.data[0].tem}℃</div>
+                            </div>
+                            <div style={{float: 'right', marginTop: '10px', marginRight: '40px'}}>
+                                <div style={{paddingLeft: '70px'}}>
+                                    <img id={'wea_pic'}
+                                         src={require(`../img/weather_api/${weather.data[0].wea_img}.png`)}
                                          alt={`${weather.data[0].wea}`}/>
                                 </div>
                                 <div>
-                                    <img style={{float:'left'}} src={require(`../img/sunrise.png`)} alt={'1'}/>
-                                    <p className={'img1Val'} style={{float:'left'}}>{weather.data[0].sunrise}</p>
-                                    <img style={{float:'left'}} src={require(`../img/sunset.png`)} alt={'1'}/>
-                                    <p className={'img1Val'} style={{float:'left',marginRight:'20px'}}>{weather.data[0].sunset}</p>
+                                    <img style={{float: 'left'}} src={require(`../img/sunrise.png`)} alt={'1'}/>
+                                    <p className={'img1Val'} style={{float: 'left'}}>{weather.data[0].sunrise}</p>
+                                    <img style={{float: 'left'}} src={require(`../img/sunset.png`)} alt={'1'}/>
+                                    <p className={'img1Val'}
+                                       style={{float: 'left', marginRight: '20px'}}>{weather.data[0].sunset}</p>
                                 </div>
                             </div>
-                            <div style={{float:'left',width:'100%'}}>
-                                <div style={{width:'50%',float:'left'}}>
+                            <div style={{float: 'left', width: '100%'}}>
+                                <div style={{width: '50%', float: 'left'}}>
                                     <Divider/>
-                                    <img className={'img1'}  src={require(`../img/tem.png`)} alt={'1'}/>
-                                         <p className={'img1Des'}> 高/低</p>
-                                         <p className={'img1Val'}>{weather.data[0].tem1}°/{weather.data[0].tem2}°</p>
+                                    <img className={'img1'} src={require(`../img/tem.png`)} alt={'1'}/>
+                                    <p className={'img1Des'}> 高/低</p>
+                                    <p className={'img1Val'}>{weather.data[0].tem1}°/{weather.data[0].tem2}°</p>
                                     <Divider/>
-                                    <img className={'img1'}  src={require(`../img/humidity.png`)} alt={'1'}/>
+                                    <img className={'img1'} src={require(`../img/humidity.png`)} alt={'1'}/>
                                     <p className={'img1Des'}>湿度</p>
                                     <p className={'img1Val'}>{weather.data[0].humidity}</p>
                                     <Divider/>
-                                    <img className={'img1'}  src={require(`../img/pressure.png`)} alt={'1'}/>
+                                    <img className={'img1'} src={require(`../img/pressure.png`)} alt={'1'}/>
                                     <p className={'img1Des'}>气压</p>
                                     <p className={'img1Val'}>{weather.data[0].pressure}毫巴</p>
                                     <Divider/>
-                                    <img className={'img1'}  src={require(`../img/visibility.png`)} alt={'1'}/>
+                                    <img className={'img1'} src={require(`../img/visibility.png`)} alt={'1'}/>
                                     <p className={'img1Des'}>能见度</p>
                                     <p className={'img1Val'}>{weather.data[0].visibility}公里</p>
                                 </div>
-                                <div style={{width:'50%',float:'left'}}>
+                                <div style={{width: '50%', float: 'left'}}>
                                     <Divider/>
-                                    <img className={'img1'}  src={require(`../img/wind.png`)} alt={'1'}/>
+                                    <img className={'img1'} src={require(`../img/wind.png`)} alt={'1'}/>
                                     <p className={'img1Des'}>大风</p>
                                     <p className={'img1Val'}>{weather.data[0].win_meter}</p>
                                     <Divider/>
-                                    <img className={'img1'}  src={require(`../img/sun.png`)} alt={'1'}/>
+                                    <img className={'img1'} src={require(`../img/sun.png`)} alt={'1'}/>
                                     <p className={'img1Des'}>紫外线</p>
                                     <p className={'img1Val'}>{weather.data[0].index[0].level}</p>
                                     <Divider/>
-                                    <img className={'img1'}  src={require(`../img/air.png`)} alt={'1'}/>
+                                    <img className={'img1'} src={require(`../img/air.png`)} alt={'1'}/>
                                     <p className={'img1Des'}>AQI</p>
-                                    <p className={'img1Val'}>{weather.aqi.air+" "+weather.aqi.air_level}</p>
+                                    <p className={'img1Val'}>{weather.aqi.air + " " + weather.aqi.air_level}</p>
                                     <Divider/>
-                                    <img className={'img1'}  src={require(`../img/pm25.jpg`)} alt={'1'}/>
+                                    <img className={'img1'} src={require(`../img/pm25.jpg`)} alt={'1'}/>
                                     <p className={'img1Des'}>PM2.5</p>
                                     <p className={'img1Val'}>{weather.aqi.pm25}</p>
                                 </div>
@@ -344,12 +359,13 @@ class SearchCity extends React.Component {
                                 <p><strong>每日预报</strong></p>
                             </div>
                             <Row>
-                                <Col style={{marginLeft:'35px'}} span={3}>
+                                <Col style={{marginLeft: '35px'}} span={3}>
                                     <div className={'hourWeather'}>
                                         <p className={'timeOneDay'}><strong>今天</strong></p>
                                         <p className={'tem2 now'}><strong>{dayReport[0].tem1}℃</strong></p>
                                         <p className={'tem1 now'}><strong>{dayReport[0].tem2}℃</strong></p>
-                                        <img className={'pic2'} src={require(`../img/weather_api/${dayReport[0].wea_img}.png`)}
+                                        <img className={'pic2'}
+                                             src={require(`../img/weather_api/${dayReport[0].wea_img}.png`)}
                                              alt={`${dayReport[0].wea}`}/>
                                         <p>{dayReport[0].win[0]}</p>
                                         <p>{dayReport[0].win[1]}</p>
@@ -358,10 +374,13 @@ class SearchCity extends React.Component {
                                 <Divider className={'divider'} dashed={true} type="vertical"/>
                                 <Col span={3}>
                                     <div className={'hourWeather'}>
-                                        <p className={'timeOneDay'}><strong>{"周"+dayReport[1].week.split('期')[1]+dayReport[1].day.split('日')[0]}</strong></p>
+                                        <p className={'timeOneDay'}>
+                                            <strong>{"周" + dayReport[1].week.split('期')[1] + dayReport[1].day.split('日')[0]}</strong>
+                                        </p>
                                         <p className={'tem2'}><strong>{dayReport[1].tem1}℃</strong></p>
                                         <p className={'tem1'}><strong>{dayReport[1].tem2}℃</strong></p>
-                                        <img className={'pic2'} src={require(`../img/weather_api/${dayReport[1].wea_img}.png`)}
+                                        <img className={'pic2'}
+                                             src={require(`../img/weather_api/${dayReport[1].wea_img}.png`)}
                                              alt={`${dayReport[1].wea}`}/>
                                         <p>{dayReport[1].win[0]}</p>
                                         <p>{dayReport[1].win[1]}</p>
@@ -370,10 +389,13 @@ class SearchCity extends React.Component {
                                 <Divider className={'divider'} dashed={true} type="vertical"/>
                                 <Col span={3}>
                                     <div className={'hourWeather'}>
-                                        <p className={'timeOneDay'}><strong>{"周"+dayReport[2].week.split('期')[1]+dayReport[2].day.split('日')[0]}</strong></p>
+                                        <p className={'timeOneDay'}>
+                                            <strong>{"周" + dayReport[2].week.split('期')[1] + dayReport[2].day.split('日')[0]}</strong>
+                                        </p>
                                         <p className={'tem2'}><strong>{dayReport[2].tem1}℃</strong></p>
                                         <p className={'tem1'}><strong>{dayReport[2].tem2}℃</strong></p>
-                                        <img className={'pic2'} src={require(`../img/weather_api/${dayReport[2].wea_img}.png`)}
+                                        <img className={'pic2'}
+                                             src={require(`../img/weather_api/${dayReport[2].wea_img}.png`)}
                                              alt={`${dayReport[2].wea}`}/>
                                         <p>{dayReport[2].win[0]}</p>
                                         <p>{dayReport[2].win[1]}</p>
@@ -382,10 +404,13 @@ class SearchCity extends React.Component {
                                 <Divider className={'divider'} dashed={true} type="vertical"/>
                                 <Col span={3}>
                                     <div className={'hourWeather'}>
-                                        <p className={'timeOneDay'}><strong>{"周"+dayReport[3].week.split('期')[1]+dayReport[3].day.split('日')[0]}</strong></p>
+                                        <p className={'timeOneDay'}>
+                                            <strong>{"周" + dayReport[3].week.split('期')[1] + dayReport[3].day.split('日')[0]}</strong>
+                                        </p>
                                         <p className={'tem2'}><strong>{dayReport[3].tem1}℃</strong></p>
                                         <p className={'tem1'}><strong>{dayReport[3].tem2}℃</strong></p>
-                                        <img  className={'pic2'} src={require(`../img/weather_api/${dayReport[3].wea_img}.png`)}
+                                        <img className={'pic2'}
+                                             src={require(`../img/weather_api/${dayReport[3].wea_img}.png`)}
                                              alt={`${dayReport[3].wea}`}/>
                                         <p>{dayReport[3].win[0]}</p>
                                         <p>{dayReport[3].win[1]}</p>
@@ -394,10 +419,13 @@ class SearchCity extends React.Component {
                                 <Divider className={'divider'} dashed={true} type="vertical"/>
                                 <Col span={3}>
                                     <div className={'hourWeather'}>
-                                        <p className={'timeOneDay'}><strong>{"周"+dayReport[4].week.split('期')[1]+dayReport[4].day.split('日')[0]}</strong></p>
+                                        <p className={'timeOneDay'}>
+                                            <strong>{"周" + dayReport[4].week.split('期')[1] + dayReport[4].day.split('日')[0]}</strong>
+                                        </p>
                                         <p className={'tem2'}><strong>{dayReport[4].tem1}℃</strong></p>
                                         <p className={'tem1'}><strong>{dayReport[4].tem2}℃</strong></p>
-                                        <img className={'pic2'} src={require(`../img/weather_api/${dayReport[4].wea_img}.png`)}
+                                        <img className={'pic2'}
+                                             src={require(`../img/weather_api/${dayReport[4].wea_img}.png`)}
                                              alt={`${dayReport[4].wea}`}/>
                                         <p>{dayReport[4].win[0]}</p>
                                         <p>{dayReport[4].win[1]}</p>
@@ -406,10 +434,13 @@ class SearchCity extends React.Component {
                                 <Divider className={'divider'} dashed={true} type="vertical"/>
                                 <Col span={3}>
                                     <div className={'hourWeather'}>
-                                        <p className={'timeOneDay'}><strong>{"周"+dayReport[5].week.split('期')[1]+dayReport[5].day.split('日')[0]}</strong></p>
+                                        <p className={'timeOneDay'}>
+                                            <strong>{"周" + dayReport[5].week.split('期')[1] + dayReport[5].day.split('日')[0]}</strong>
+                                        </p>
                                         <p className={'tem2'}><strong>{dayReport[5].tem1}℃</strong></p>
                                         <p className={'tem1'}><strong>{dayReport[5].tem2}℃</strong></p>
-                                        <img className={'pic2'} src={require(`../img/weather_api/${dayReport[5].wea_img}.png`)}
+                                        <img className={'pic2'}
+                                             src={require(`../img/weather_api/${dayReport[5].wea_img}.png`)}
                                              alt={`${dayReport[5].wea}`}/>
                                         <p>{dayReport[5].win[0]}</p>
                                         <p>{dayReport[5].win[1]}</p>
