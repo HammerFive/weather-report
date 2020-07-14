@@ -30,16 +30,16 @@ class SearchCity extends React.Component {
             this.refs.wea2.innerHTML = '--';
             this.refs.win2.innerHTML = '--';
         }
-        if (curHour > 22) {
+        if (curHour > 24) {
             this.refs.p3.innerHTML = '--';
             this.refs.wea3.innerHTML = '--';
             this.refs.win3.innerHTML = '--';
         }
-        if (curHour > 0 && curHour < 8) {
-            this.refs.p4.innerHTML = '--';
-            this.refs.wea4.innerHTML = '--';
-            this.refs.win4.innerHTML = '--';
-        }
+        // if (curHour > 0 && curHour < 8) {
+        //     this.refs.p4.innerHTML = '--';
+        //     this.refs.wea4.innerHTML = '--';
+        //     this.refs.win4.innerHTML = '--';
+        // }
         this.writeFile();
 
     }
@@ -325,7 +325,7 @@ class SearchCity extends React.Component {
                                     <Divider/>
                                     <img className={'img1'} src={require(`../img/visibility.png`)} alt={'1'}/>
                                     <p className={'img1Des'}>能见度</p>
-                                    <p className={'img1Val'}>{weather.data[0].visibility}公里</p>
+                                    <p className={'img1Val'}>{weather.data[0].visibility}</p>
                                 </div>
                                 <div style={{width: '50%', float: 'left'}}>
                                     <Divider/>
@@ -339,11 +339,11 @@ class SearchCity extends React.Component {
                                     <Divider/>
                                     <img className={'img1'} src={require(`../img/air.png`)} alt={'1'}/>
                                     <p className={'img1Des'}>AQI</p>
-                                    <p className={'img1Val'}>{weather.aqi.air + " " + weather.aqi.air_level}</p>
+                                    <p className={'img1Val'}>{weather.aqi.air?weather.aqi.air+ " " + weather.aqi.air_level:'暂缺    ' }</p>
                                     <Divider/>
                                     <img className={'img1'} src={require(`../img/pm25.jpg`)} alt={'1'}/>
                                     <p className={'img1Des'}>PM2.5</p>
-                                    <p className={'img1Val'}>{weather.aqi.pm25}</p>
+                                    <p className={'img1Val'}>{weather.aqi.pm25?weather.aqi.pm25:'暂缺'}</p>
                                 </div>
                             </div>
                         </Content>

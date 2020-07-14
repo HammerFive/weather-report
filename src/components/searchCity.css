@@ -3,7 +3,7 @@
     line-height: 1.5;
     font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Fira Sans,Droid Sans,Helvetica Neue,sans-serif;;
 
-    border: 1px solid black;
+    /*border: 1px solid black;*/
 
     background: #6e3f98;
     width: 60%;
@@ -14,7 +14,7 @@
 .mainBar2 {
     line-height: 1.5;
     font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Fira Sans,Droid Sans,Helvetica Neue,sans-serif;
-    border: 1px solid black;
+    /*border: 1px solid black;*/
     background: white;
     width: 73.4%;
     /*background-image: linear-gradient(#6e3f98, #9a6c97, #cfa497);*/
