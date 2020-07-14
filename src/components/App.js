@@ -132,7 +132,7 @@ class App extends React.Component {
                     <Menu theme="dark" mode="horizontal"/>
                 </Header>
                 <br/>
-                <h1 style={{textAlign: 'center', fontSize: '68px', color: 'white'}}>天气预报</h1>
+                <h1 style={{textAlign: 'center', fontSize: '48px', color: 'white'}}>天气预报</h1>
                 <br/>
                 <Content style={{padding: '0 50px'}}>
                     <br/>
